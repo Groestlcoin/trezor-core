@@ -116,4 +116,6 @@ RipplePublicKey = 301
 RippleGetAddress = 302
 RippleAddress = 303
 RippleSignTx = 304
-RipplePaymentType = 305
+RippleTxTypeRequest = 305
+RipplePaymentTxType = 306
+RippleSignedTx = 307
