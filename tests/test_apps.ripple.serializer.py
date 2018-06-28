@@ -34,9 +34,9 @@ class TestRippleSerializer(unittest.TestCase):
 
         # XRP
 
-        assert sa('0') == '4000000000000000'
-        assert sa('1') == '4000000000000001'
-        assert sa('-1') == '0000000000000001'
+        assert sa('0') == unhexlify('4000000000000000')
+        assert sa('1') == unhexlify('4000000000000001')
+        assert sa('-1') == unhexlify('0000000000000001')
         with self.assertRaises(ValueError):
             sa('1.1')  # we could support floats, but don't for now
 
@@ -63,7 +63,7 @@ class TestRippleSerializer(unittest.TestCase):
     def test_vl_data(self):
         s = call_encoder(TypeSerializers.STVL)
         assert s('02AE75B908F0A95F740A7BFA96057637E5C2170BC8DAD13B2F7B52AE75FAEBEFCF') == \
-               '2102AE75B908F0A95F740A7BFA96057637E5C2170BC8DAD13B2F7B52AE75FAEBEFCF'
+               unhexlify('2102AE75B908F0A95F740A7BFA96057637E5C2170BC8DAD13B2F7B52AE75FAEBEFCF')
 
     # def test_transactions(self):
     #     """Test some full transactions.

@@ -193,13 +193,11 @@ INVERSE_FIELDS_MAP = {
 }
 
 
-def serialize_object(obj, hex=True):
+def serialize_object(obj):
     """This is your main entry point to serialize something."""
     stream = bytearray()
     TypeSerializers.STObject(stream, obj, no_marker=True)
-    if hex:
-        return fmt_hex(stream)
-    return bytes
+    return stream
 
 
 def serialize_field(stream, name, value):
@@ -501,21 +499,22 @@ def from_bytes(bytes):
     return int(hexlify(bytes), 16)
 
 
-def fmt_hex(bytes):
-    """Format the bytes as a hex string, return upper-case version.
-    """
-    # This is a separate function so as to not make the mistake of
-    # using the '%X' format string with an ints, which will not
-    # guarantee an even-length string.
-    #
-    # binascii works on all versions of Python, the hex encoding does not.
-    hex = hexlify(bytes)
-    hex = hex.decode()  # Returns bytes, which makes no sense to me
-    return hex.upper()
+# def fmt_hex(bytes):
+#     """Format the bytes as a hex string, return upper-case version.
+#     """
+#     # This is a separate function so as to not make the mistake of
+#     # using the '%X' format string with an ints, which will not
+#     # guarantee an even-length string.
+#     #
+#     # binascii works on all versions of Python, the hex encoding does not.
+#     hex = hexlify(bytes)
+#     hex = hex.decode()  # Returns bytes, which makes no sense to me
+#     return hex.upper()
 
 
 def decode_hex(hex_string):
     """Decode a string like "fa4b21" to actual bytes."""
+    print(hex_string)
     return unhexlify(hex_string)
 
 
@@ -607,7 +606,7 @@ def call_encoder(func, *a, **kw):
     def call_util(*a, **kw):
         buffer = bytearray()
         func(buffer, *a, **kw)
-        return fmt_hex(buffer)
+        return buffer
     if a or kw:
         return call_util(*a, **kw)
     return call_util
